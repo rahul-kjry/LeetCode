@@ -14,7 +14,7 @@ public:
     }
     
     void g(int len, string str, int lft, int rgt) {
-        if (str.size() == 2 * len) {
+        if (str.size() == len << 1) {
             if (valid(str)) {
                 res.push_back(str);
             }
