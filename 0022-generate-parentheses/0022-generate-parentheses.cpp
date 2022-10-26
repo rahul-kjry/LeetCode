@@ -13,23 +13,27 @@ public:
         return bal == 0;
     }
     
-    void g(int len, string str = "") {
+    void g(int len, string str, int lft, int rgt) {
         if (str.size() == 2 * len) {
             if (valid(str)) {
                 res.push_back(str);
             }
             return ;
         }
-        str.push_back('(');
-        g(len, str);
-        str.pop_back();
-        str.push_back(')');
-        g(len, str);
-        str.pop_back();
+        if (lft < len) {
+            str.push_back('(');
+            g(len, str, lft + 1, rgt);
+            str.pop_back();
+        }
+        if (rgt < lft) {
+            str.push_back(')');
+            g(len, str, lft, rgt + 1);
+            str.pop_back();
+        }
     }
     
     vector<string> generateParenthesis(int len) {
-        g(len);
+        g(len, "", 0, 0);
         return res;
     }
 };
