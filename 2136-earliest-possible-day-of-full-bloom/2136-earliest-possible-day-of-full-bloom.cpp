@@ -15,10 +15,10 @@ public:
                      return val1.second > val2.second;
                  }
              });
-        int pre = -1, res = 0;
+        int pre = 0, res = 0;
         for (auto & i : vp) {
             pre += i.first;
-            res = fmax(res, pre + i.second + 1);
+            res = fmax(res, pre + i.second);
         }
         return res;
     }
