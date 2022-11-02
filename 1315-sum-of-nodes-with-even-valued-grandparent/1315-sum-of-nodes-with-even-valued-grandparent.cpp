@@ -18,7 +18,7 @@ public:
         if (not root) {
             return sum;
         }
-        if (root -> val % 2 == 0) {
+        if (root -> val & 1 ^ 1) {
             if (root -> L) {
                 if (root -> L -> L) {
                     sum += root -> L -> L -> V;
