@@ -3,11 +3,17 @@ public:
     int minMutation(string stt, string end, vector<string>& bnk) {
         unordered_set<string> st(bnk.begin(), bnk.end());
         queue<string> que;
+        if (stt == end) {
+            return 0;
+        }
+        if (st.find(end) == st.end()) {
+            return -1;
+        }
         que.push(stt);
         int len = 0;
         while (not que.empty()) {
             for (int i = que.size(); i > 0; --i) {
-                string cur = que.front();
+                string & cur = que.front();
                 que.pop();
                 if (cur == end) {
                     return len;
@@ -24,7 +30,7 @@ public:
                     cur[j] = tmp;
                 }
             }
-            len += 1;
+            ++ len;
         }
         return -1;
     }
