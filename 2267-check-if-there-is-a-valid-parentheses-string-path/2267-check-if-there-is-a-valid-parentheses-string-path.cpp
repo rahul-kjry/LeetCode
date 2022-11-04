@@ -3,7 +3,7 @@ public:
     int rows, cols;
     int dp[101][101][205];
     bool g(vector<vector<char>> & mat, int i, int j, int bal) {
-        if (i == rows or j == cols or bal < 0) {
+        if (i == rows or j == cols) {
             return 0;
         }
         bal += (mat[i][j] == '(' ? 1 : -1);
