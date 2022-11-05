@@ -23,7 +23,7 @@ public:
     
     void dfs(TrieNode * root, vector<vector<char>>& mat, vector<string> & res, int i, int j, string &wrd) {
         if (mat[i][j] != '.' and root -> child[mat[i][j] - 'a'] != nullptr) {
-            wrd += mat[i][j];
+            wrd.push_back(mat[i][j]);
             root = root -> child[mat[i][j] - 'a'];
             if (root -> isEnd) {
                 root -> isEnd = false;
