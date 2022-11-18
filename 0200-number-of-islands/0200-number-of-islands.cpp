@@ -1,27 +1,31 @@
 class Solution {
 public:
-    void DFS(vector<vector<char>>& grid, int i, int j) {
-        if(i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size())
-            return;
-        if(grid[i][j] == '2' || grid[i][j] == '0')
-            return;
-        grid[i][j] = '2';
-        DFS(grid, i+1, j);
-        DFS(grid, i, j-1);
-        DFS(grid, i-1, j);
-        DFS(grid, i, j+1);
-    }
-    
     int numIslands(vector<vector<char>>& grid) {
-        int islands = 0;
-        for(int i = 0; i < grid.size(); i++) {
-            for(int j = 0; j < grid[0].size(); j++) {
-                if(grid[i][j] == '1') {
-                    DFS(grid, i, j);
-                    ++islands;
-                } 
+        int os[5] = {0, -1, 0, 1, 0};
+        int rows = grid.size(), cols = grid[0].size();
+        int isLandsCount = 0;
+        queue<pair<int, int>> que;
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                if (grid[i][j] == '1')  {
+                    grid[i][j] = '0';
+                    que.push({i, j});
+                    ++ isLandsCount;
+                    while (not que.empty()) {
+                        auto [p1, p2] = que.front();
+                        que.pop();
+                        for (int o = 0; o < 4; ++o) {
+                            int tr = p1 + os[o];
+                            int tc = p2 + os[o + 1];
+                            if (min(tr, tc) >= 0 and tr < rows and tc < cols and grid[tr][tc] == '1') {
+                                grid[tr][tc] = '0';
+                                que.push({tr, tc});
+                            }
+                        }
+                    }
+                }
             }
         }
-        return islands;
+        return isLandsCount;
     }
 };
