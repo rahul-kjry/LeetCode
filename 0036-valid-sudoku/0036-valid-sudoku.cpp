@@ -9,13 +9,13 @@ public:
                 int msk = 1 << (mat[i][j] & 0xf);
                 if (rows[i] & msk)
                     return false;
-                rows[i] |= msk;
+                rows[i] ^= msk;
                 if (cols[j] & msk) 
                     return false;
-                cols[j] |= msk;
+                cols[j] ^= msk;
                 if (box[i / 3 * 3 + j / 3] & msk) 
                     return false;
-                box[i / 3 * 3 + j / 3] |= msk;
+                box[i / 3 * 3 + j / 3] ^= msk;
             }
         }
         return true;
