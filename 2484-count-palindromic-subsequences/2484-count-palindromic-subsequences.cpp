@@ -1,47 +1,34 @@
 class Solution {
 public:
-    int dp[10001][11][11][6];
-    int mod = 1e9+7;
-    int g(string & str, int id, int fi, int se, int ct) {
-        if (ct == 5) {
-            return 1;
+    int pre[10000][10][10], suf[10000][10][10], cnts[10] = {};
+    int countPalindromes(string s) {
+    int mod = 1e9 + 7, n = s.size(), ans = 0;
+    for (int i = 0; i < n; i++) {
+        int c = s[i] - '0';
+        if (i) {
+            for (int j = 0; j < 10; j++)
+                for (int k = 0; k < 10; k++) {
+                    pre[i][j][k] = pre[i - 1][j][k];
+                    if (k == c) pre[i][j][k] += cnts[j];
+                }
         }
-        if (id == str.size()) {
-            return 0;
-        }
-        if (dp[id][fi][se][ct] != -1) {
-            return dp[id][fi][se][ct];
-        }
-        int res = g(str, id + 1, fi, se, ct) % mod;
-        if (ct == 0) {
-            res += g(str, id + 1, str[id] - '0', se, ct + 1);
-            res %= mod;
-        }
-        if (ct == 1) {
-            res += g(str, id + 1, fi, str[id] - '0', ct + 1);
-            res %= mod;
-        }
-        if (ct == 2) {
-            res += g(str, id + 1, fi, se, ct + 1);
-            res %= mod;
-        }
-        if (ct == 3) {
-            if (se == str[id] - '0') {
-                res += g(str, id + 1, fi, se, ct + 1);
-            res %= mod;
-            }
-        }
-        if (ct == 4) {
-            if (fi == str[id] - '0') {
-                res += g(str, id + 1, fi, se, ct + 1);
-            res %= mod;
-            }
-        }
-        return dp[id][fi][se][ct] = res % mod;
+        cnts[c]++;
     }
-    
-    int countPalindromes(string str) {
-        memset(dp, -1, sizeof(dp));
-        return g(str, 0, 0, 0, 0);
+    memset(cnts, 0, sizeof(cnts));
+    for (int i = n - 1; i >= 0; i--) {
+        int c = s[i] - '0';
+        if (i < n - 1)
+            for (int j = 0; j < 10; j++)
+                for (int k = 0; k < 10; k++) {
+                    suf[i][j][k] = suf[i + 1][j][k];
+                    if (k == c) suf[i][j][k] += cnts[j];
+                }
+        cnts[c]++;
+    }
+    for (int i = 2; i < n - 2; i++)
+        for (int j = 0; j < 10; j++)
+            for (int k = 0; k < 10; k++)
+                ans = (ans + (long long)pre[i - 1][j][k] * suf[i + 1][j][k]) % mod;
+    return ans;
     }
 };
